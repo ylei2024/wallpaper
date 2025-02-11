@@ -15,7 +15,7 @@ Wallpaper 是一款使用 Tauri 开发的轻量级壁纸软件，旨在为用户
 ### 前提条件
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Node.js](https://nodejs.org/)
-- [Tauri CLI](https://tauri.app/v1/guides/getting-started/prerequisites)
+- [Tauri CLI](https://v2.tauri.app/zh-cn)
 
 ### 安装步骤
 
