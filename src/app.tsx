@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react"
+import { invoke } from "@tauri-apps/api/core"
 import { fetch } from "@tauri-apps/plugin-http"
+import { appLocalDataDir } from "@tauri-apps/api/path"
+import { writeFile, BaseDirectory } from "@tauri-apps/plugin-fs"
 
 import "./styles.css"
+import { image } from "@tauri-apps/api"
 
 interface Images {
   startdate: string
@@ -34,7 +38,13 @@ function App() {
   }, [])
   async function setImage(index: number) {
     setSelect(index)
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    const image = images[index]
+    const response = await fetch(`https://www.bing.com${image.url.replace("1920x1080", "UHD")}`, { method: "GET" })
+    const blob = await response.blob()
+    const arrayBuffer = await blob.arrayBuffer()
+    await writeFile(`wallpaper.jpg`, new Uint8Array(arrayBuffer), { baseDir: BaseDirectory.AppLocalData })
+    const dir = await appLocalDataDir()
+    await invoke("set_wallpaper", { path: dir + "/wallpaper.jpg" })
     setSelect(-1)
   }
   return (
